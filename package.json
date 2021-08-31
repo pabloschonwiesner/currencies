@@ -4,12 +4,17 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "pm2-runtime backend/index.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "dotenv": "^10.0.0",
     "express": "^4.17.1",
-    "mysql": "^2.18.1"
+    "mysql2": "^2.3.0",
+    "wait-port": "^0.2.9"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.12"
   }
 }
