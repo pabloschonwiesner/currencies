@@ -15,7 +15,8 @@ let pool = mysql.createPool({
   user: MYSQL_USER,
   password: MYSQL_PASSWORD,
   database: MYSQL_DB,
-  multipleStatements: true
+  multipleStatements: true,
+  insecureAuth: true
 });
 
 async function initDb () {
