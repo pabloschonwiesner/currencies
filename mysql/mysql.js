@@ -28,7 +28,8 @@ async function initDb () {
         id int(11) NOT NULL AUTO_INCREMENT,
         description varchar(45) NOT NULL,
         symbol varchar(45) NOT NULL,
-        PRIMARY KEY (id)
+        PRIMARY KEY (id),
+        UNIQUE KEY description_UNIQUE (description)
       ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4;
       
       CREATE TABLE IF NOT EXISTS currency_rates (
@@ -41,7 +42,7 @@ async function initDb () {
         CONSTRAINT id_currencies_fk FOREIGN KEY (id_currency) REFERENCES currencies (id) ON DELETE NO ACTION ON UPDATE NO ACTION
       ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4;
       
-      INSERT INTO currencies (description, symbol) VALUES ('bitcoin', 'BTC'), ('etherum', 'ETH'), ('cardano', 'ADA')
+      INSERT IGNORE INTO currencies (description, symbol) VALUES ('bitcoin', 'BTC'), ('etherum', 'ETH'), ('cardano', 'ADA')
       `,
       err => {
         if (err) {

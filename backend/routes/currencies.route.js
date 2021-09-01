@@ -1,6 +1,6 @@
 const express = require('express')
 const app = express()
-const { getCurrencies, setCurrency, setCurrencyRate, getCurrencyRate} = require('./../services/currencies.service')
+const { getCurrencies, setCurrency, setCurrencyRate, getCurrencyRate, getRatesSymbol} = require('./../services/currencies.service')
 
 app.get('/currencies', async (req, res) => {
   try {
@@ -26,6 +26,13 @@ app.post('/rates', async (req, res) => {
 app.get('/rates/:symbol?', async (req, res) => {
   try {
     let rates = await getCurrencyRate( req.params.symbol )
+    res.json(rates)
+  } catch ( err ) { res.json( { err } )}
+})
+
+app.get('/ratesSymbol/:symbol/:qty?', async (req, res) => {
+  try {
+    let rates = await getRatesSymbol( req.params.symbol, req.params.qty || 5 )
     res.json(rates)
   } catch ( err ) { res.json( { err } )}
 })

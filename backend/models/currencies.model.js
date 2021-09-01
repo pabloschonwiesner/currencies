@@ -45,7 +45,7 @@ async function selectCurrencyRate () {
 
       let data = []
       result[0].forEach( item => {
-        item.currency = result[1].find( currency => currency.id = item.id_currency)
+        item.currency = result[1].find( currency => currency.id == item.id_currency)
         data.push(item)
       })
       return resolve(data)
@@ -58,7 +58,7 @@ async function selectCurrencyRateSymbol ( symbol ) {
     pool.query(`
       select cr.*, c.symbol, c.description 
       from currency_rates cr inner join currencies c on c.id = cr.id_currency
-      where c.symbol = ?`, [symbol], (err, result) => {
+      where c.symbol = ? order by id desc limit 1`, [symbol], (err, result) => {
       if ( err ) return reject(err)
 
       let data = {
@@ -77,13 +77,35 @@ async function selectCurrencyRateSymbol ( symbol ) {
   })
 }
 
+async function selectRatesSymbol ( symbol, qty ) {
+  return new Promise((resolve, reject) => {
+    pool.query(`
+      select cr.*, c.symbol, c.description 
+      from currency_rates cr inner join currencies c on c.id = cr.id_currency
+      where c.symbol = ? order by id desc limit ?;
+      
+      select * from currencies where symbol = ?
+      
+      `, [symbol, Number(qty), symbol], (err, result) => {
+      if ( err ) return reject(err)
+      
+      let data = {        
+        currency: result[1][0],
+        serie: result[0]
+      }
+      return resolve(data)
+    })
+  })
+}
+
 
 module.exports = {
   selectCurrencies,
   createCurrency,
   createCurrencyRate,
   selectCurrencyRate,
-  selectCurrencyRateSymbol
+  selectCurrencyRateSymbol,
+  selectRatesSymbol
 }
 
 

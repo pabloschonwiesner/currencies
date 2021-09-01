@@ -7,10 +7,11 @@ CREATE TABLE `currencies` (
   `description` varchar(45) NOT NULL,
   `symbol` varchar(45) NOT NULL,
   PRIMARY KEY (`id`)
+  UNIQUE KEY `description_UNIQUE` (`description`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4;
 
 LOCK TABLES `currencies` WRITE;
-INSERT INTO `currencies` VALUES (1,'bitcoin','BTC'),(2,'ethereum','ETH'),(3,'cardano','ADA')
+INSERT IGNORE INTO `currencies` VALUES (1,'bitcoin','BTC'),(2,'ethereum','ETH'),(3,'cardano','ADA')
 UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `currency_rates`;

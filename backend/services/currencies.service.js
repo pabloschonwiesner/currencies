@@ -1,4 +1,4 @@
-const { selectCurrencies, createCurrency, createCurrencyRate, selectCurrencyRate, selectCurrencyRateSymbol } = require('./../models/currencies.model')
+const { selectCurrencies, createCurrency, createCurrencyRate, selectCurrencyRate, selectCurrencyRateSymbol, selectRatesSymbol } = require('./../models/currencies.model')
 
 async function getCurrencies () {
   try {
@@ -32,10 +32,18 @@ async function getCurrencyRate ( symbol ) {
   } catch ( err ) { throw err }
 }
 
+async function getRatesSymbol ( symbol, qty ) {
+  try {
+
+    return await selectRatesSymbol(symbol, qty)
+  } catch ( err ) { throw err }
+}
+
 
 module.exports = {
   getCurrencies,
   setCurrency,
   setCurrencyRate,
-  getCurrencyRate
+  getCurrencyRate,
+  getRatesSymbol
 }
